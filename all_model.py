@@ -1,8 +1,8 @@
-%pip install --upgrade --quiet langchain sentence_transformers
-%pip install --upgrade --quiet torch sentence-transformers
-%pip install --quiet scikit-learn numpy
-%pip install --quiet langchain_huggingface
-%pip install --quiet datasets
+# pip install --upgrade --quiet langchain sentence_transformers
+# pip install --upgrade --quiet torch sentence-transformers
+# pip install --quiet scikit-learn numpy
+# pip install --quiet langchain_huggingface
+# pip install --quiet datasets
 
 from langchain_huggingface.embeddings import HuggingFaceEmbeddings
 from sentence_transformers import SentenceTransformer
@@ -106,11 +106,11 @@ def data_load():
   print(analogy_dataset['test'][:2])
   qqp_dataset = load_dataset("glue", "qqp")
   print(qqp_dataset['train'][:10])
-  return analogy_dataset['test'][:5],qqp_dataset['train'][:5]
+  return analogy_dataset['test'][:500],qqp_dataset['train'][:500]
 
 
 
-# 模型列表
+# 模型列表 其中第一个由于我的资源问题无法跑通，其他都可以
 models = [
     'nvidia/NV-Embed-v2',
     'Alibaba-NLP/gte-Qwen2-1.5B-instruct',
@@ -122,10 +122,11 @@ models = [
     'Pristinenlp/alime-embedding-large-zh',
     'thenlper/gte-large-zh'
 ]
-# 定义需要 trust_remote_code 的模型
-trust_remote_code_models = {
-    'nvidia/NV-Embed-v2': True
-}
+
+
+# 定义需要 trust_remote_code 的模型，让所有模型的 trust_remote_code 都为 true
+trust_remote_code_models = {model: True for model in models}
+
 
 ana,qqp=data_load()
 
